@@ -1,0 +1,10 @@
+.idea*
+*.log
+.DS_Store
+project/project
+target/
+*.gpg
+*.asc
+*.tar
+forex
+
