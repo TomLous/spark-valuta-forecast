@@ -7,16 +7,25 @@ import util.{AppConfig, SparkJob}
 /**
   * Created by Tom Lous on 15/10/2017.
   */
-object ConvertCSV2Parquet extends App with SparkJob with AppConfig {
+object ConvertCSVToParquet extends App with SparkJob with AppConfig {
 
   import spark.implicits._
 
-  ForexDataset
+  val forexDataset = ForexDataset
     .loadCSV(forexFilePath)
-    .write
+    .cache()
+
+    forexDataset.write
 //    .partitionBy("year","month")
     .mode(SaveMode.Overwrite)
     .save("src/main/resources/" + config.getString("forexParquet"))
+
+  forexDataset
+      .filter('timestamp.gt(lit("2017-01-01")))
+    .write
+    //    .partitionBy("year","month")
+    .mode(SaveMode.Overwrite)
+    .save("src/main/resources/" + config.getString("forexParquet") + "-2017")
 
 
 

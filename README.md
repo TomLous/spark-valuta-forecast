@@ -8,5 +8,13 @@ Caveat: I know next to nothing about stocks, valuta or any financial system, so 
 Data downloaded from:
 http://www.forextester.com/data/datasources
 
+Store files in src/main/resources/forex and adjust application.conf
+
 
 Run with `-Dspark.master=local[N]` where N is number of cores you want to use
+
+Steps,
+1. *optional* `Preview`
+2. `ConvertCSVToParquet`
+3. *optional* `PreviewParquet`
+4. Window data & fit linear regression
