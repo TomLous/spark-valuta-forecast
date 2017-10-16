@@ -1,7 +1,7 @@
 package job.convert
 
 
-import dataset.ForexDataset
+import dataset.{ForexDataset, ForexLabeledPointDataset}
 import model.ForexRecord
 import org.apache.spark.ml.feature.LabeledPoint
 import org.apache.spark.ml.linalg.Vectors
@@ -24,20 +24,7 @@ object ConvertParquetToLabeledPoint extends App with SparkJob with AppConfig {
 
   val forexDataset:Dataset[ForexRecord] = ForexDataset.loadParquet(path).cache()
 
-
-  val labeledPointDataset = forexDataset
-    .select('timestamp, col(mlTargetField).as("target"))
-    .groupBy(
-      window('timestamp, s"$windowSize minutes", s"$windowSlide minute")
-    )
-    .agg(collect_list("target").as("featureVector"))
-    .filter(size('featureVector) === windowSize)
-    .drop("window")
-    .as[Array[Double]]
-    .map(arr => LabeledPoint(arr.last, Vectors.dense(arr.init)))
-    .withColumn("numFeatures", lit(windowSize))
-
-
+  val labeledPointDataset = ForexLabeledPointDataset.convert(forexDataset, mlTargetField, windowSize, windowSlide)
 
   labeledPointDataset
     .write
