@@ -9,8 +9,13 @@ trait AppConfig {
 
   lazy implicit val config: Config = ConfigFactory.load()
 
-  lazy val forexFilePath:String = getClass.getResource(config.getString("forexFile")).getPath
-  lazy val forexParquetPath:String = getClass.getResource(config.getString("forexParquet")).getPath
+  val targetDir:String = config.getString("output.targetDir")
+
+  val forexFile:String = config.getString("input.forexFile")
+  lazy val forexFilePath:String = getClass.getResource(forexFile).getPath
+
+  val forexParquet:String = config.getString("input.forexParquet")
+  lazy val forexParquetPath:String = getClass.getResource(forexParquet).getPath
 
   lazy val mlTargetField:String = config.getString("ml.targetField")
   lazy val windowSize:Int = config.getInt("window.size")

@@ -1,15 +1,16 @@
+package job.preview
+
 import dataset.ForexDataset
 import org.apache.spark.sql.functions._
 import util.{AppConfig, SparkJob}
-
 /**
   * Created by Tom Lous on 15/10/2017.
   */
-object PreviewParquet extends App with SparkJob with AppConfig {
+object Preview extends App with SparkJob with AppConfig {
 
   import spark.implicits._
 
- val forexDataset = ForexDataset.loadParquet(forexParquetPath).cache()
+ val forexDataset = ForexDataset.loadCSV(forexFilePath).cache()
 
   println("Show some lines from CSV")
   forexDataset.show()
