@@ -18,4 +18,5 @@ Steps,
 2. `ConvertCSVToParquet` optionally with year to filter as param
 3. *optional* `PreviewParquet`
 4. `ConvertParquetToLabeledPoint` optionally with year to filter as param
-5.
+5. `TrainLinearRegressionModel` optionally with year to filter as param
+6.

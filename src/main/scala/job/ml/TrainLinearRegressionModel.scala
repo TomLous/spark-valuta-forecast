@@ -4,7 +4,6 @@ import java.nio.file.{Paths, Files}
 import java.nio.charset.StandardCharsets
 
 import org.apache.spark.ml.evaluation.RegressionEvaluator
-import org.apache.spark.ml.feature.LabeledPoint
 import org.apache.spark.ml.regression.{LinearRegression, LinearRegressionModel}
 import org.apache.spark.ml.tuning.{ParamGridBuilder, TrainValidationSplit}
 import util.{AppConfig, SparkJob}
@@ -12,13 +11,13 @@ import util.{AppConfig, SparkJob}
 /**
   * Created by Tom Lous on 16/10/2017.
   */
-object TrainLinearRegression extends App with SparkJob with AppConfig {
+object TrainLinearRegressionModel extends App with SparkJob with AppConfig {
 
   val postFix = args.headOption.map(p => "-" + p).getOrElse("")
 
   val path = forexParquetPath + postFix + ".libsvm"
 
-  val labeledPoints = spark.read.parquet(path) //.as[LabeledPoint]
+  val labeledPoints = spark.read.parquet(path)
 
   val split = Array(0.8,0.2)
   val seed = 11081979
