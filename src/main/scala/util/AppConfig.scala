@@ -10,6 +10,8 @@ trait AppConfig {
   lazy implicit val config: Config = ConfigFactory.load()
 
   val targetDir:String = config.getString("output.targetDir")
+  val modelSubdir:String = config.getString("output.modelSubdir")
+  val modelDir:String = s"$targetDir/$modelSubdir"
 
   val forexFile:String = config.getString("input.forexFile")
   lazy val forexFilePath:String = getClass.getResource(forexFile).getPath
